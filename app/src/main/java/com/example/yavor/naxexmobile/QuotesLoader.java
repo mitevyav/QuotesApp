@@ -133,7 +133,7 @@ public class QuotesLoader extends AsyncTaskLoader<List<QuotesInfo>> {
 
         final String BID = "Bid";
         final String ASK = "Ask";
-        final String DISPLAY_NAME = "Bid";
+        final String DISPLAY_NAME = "DisplayName";
         final String CHANGE_ORIENTATION = "ChangeOrientation";
 
         quotesJsonStr = formatJSONString(quotesJsonStr);
