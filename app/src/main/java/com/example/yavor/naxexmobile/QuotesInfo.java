@@ -81,4 +81,18 @@ public class QuotesInfo {
         return changeOrientation != UNCHANGED;
     }
 
+    /**
+     * Returns the resId for the current change. For no change return also icon,
+     * so there will be no check for invalid id. The icon will be not visible in that case.
+     *
+     * @return
+     */
+    public int getIconResId() {
+        int resId = R.drawable.ic_arrow_drop_down_white_18dp;
+        if (changeOrientation == UP) {
+            resId = R.drawable.ic_arrow_drop_up_white_18dp;
+        }
+        return resId;
+    }
+
 }

@@ -2,6 +2,7 @@ package com.example.yavor.naxexmobile;
 
 import android.content.Context;
 import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -72,13 +73,17 @@ public class QuotesAdapter extends ArrayAdapter<QuotesInfo> {
 
         int colorResId = qInfo.getColorResId();
         int color = ContextCompat.getColor(context, colorResId);
-        
+
         viewHolder.askArrow.setColorFilter(color, PorterDuff.Mode.MULTIPLY);
         viewHolder.bidArrow.setColorFilter(color, PorterDuff.Mode.MULTIPLY);
 
+        int iconResId = qInfo.getIconResId();
+        Drawable drawable = ContextCompat.getDrawable(context, iconResId);
         int arrowVisibility = qInfo.isChanged() ? View.VISIBLE : View.INVISIBLE;
         viewHolder.askArrow.setVisibility(arrowVisibility);
         viewHolder.bidArrow.setVisibility(arrowVisibility);
+        viewHolder.askArrow.setImageDrawable(drawable);
+        viewHolder.bidArrow.setImageDrawable(drawable);
 
         viewHolder.askValue.setText(qInfo.getAsk());
         viewHolder.bidValue.setText(qInfo.getBid());
