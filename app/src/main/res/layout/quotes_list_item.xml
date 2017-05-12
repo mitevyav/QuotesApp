@@ -9,8 +9,16 @@
         android:id="@+id/display_name"
         android:layout_width="0dp"
         android:layout_height="match_parent"
+        android:paddingLeft="@dimen/bid_ask_left_padding"
+        android:gravity="center_vertical"
+        android:textSize="@dimen/quotes_name_text_size"
         android:layout_weight="2"
         android:textColor="@color/display_name_text_color"/>
+
+    <View
+        android:background="@color/delimiter"
+        android:layout_width="@dimen/delimiter_width"
+        android:layout_height="match_parent"/>
 
     <LinearLayout
         android:layout_width="0dp"
@@ -21,6 +29,9 @@
         <TextView
             android:id="@+id/bid"
             android:layout_width="0dp"
+            android:paddingLeft="@dimen/bid_ask_left_padding"
+            android:textSize="@dimen/bid_ask_text_size"
+            android:gravity="center_vertical"
             android:layout_height="match_parent"
             android:layout_weight="1"/>
 
@@ -32,13 +43,23 @@
 
         <Button
             android:id="@+id/sell_button"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_width="@dimen/button_width"
+            android:layout_marginTop="@dimen/ask_bid_button_top_bottom_margin"
+            android:layout_marginBottom="@dimen/ask_bid_button_top_bottom_margin"
+            android:layout_marginRight="@dimen/ask_bid_button_right_margin"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:textSize="@dimen/ask_bid_button_text_size"
             android:background="@color/buy_sell_background_color"
             android:text="@string/sell_label"
             android:textColor="@color/buttons_text_color"/>
 
     </LinearLayout>
+
+    <View
+        android:background="@color/delimiter"
+        android:layout_width="@dimen/delimiter_width"
+        android:layout_height="match_parent"/>
 
     <LinearLayout
         android:layout_width="0dp"
@@ -49,6 +70,9 @@
         <TextView
             android:id="@+id/ask"
             android:layout_width="0dp"
+            android:paddingLeft="@dimen/bid_ask_left_padding"
+            android:textSize="@dimen/bid_ask_text_size"
+            android:gravity="center_vertical"
             android:layout_height="match_parent"
             android:layout_weight="1"/>
 
@@ -60,8 +84,13 @@
 
         <Button
             android:id="@+id/buy_button"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_width="@dimen/button_width"
+            android:layout_marginTop="@dimen/ask_bid_button_top_bottom_margin"
+            android:layout_marginBottom="@dimen/ask_bid_button_top_bottom_margin"
+            android:layout_marginRight="@dimen/ask_bid_button_right_margin"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:textSize="@dimen/ask_bid_button_text_size"
             android:background="@color/buy_sell_background_color"
             android:text="@string/buy_label"
             android:textColor="@color/buttons_text_color"/>

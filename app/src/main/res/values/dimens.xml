@@ -2,4 +2,12 @@
 <resources>
     <dimen name="list_item_height_portrait">40dp</dimen>
     <dimen name="list_item_height_land">120dp</dimen>
+    <dimen name="bid_ask_left_padding">2dp</dimen>
+    <dimen name="bid_ask_text_size">12sp</dimen>
+    <dimen name="delimiter_width">1dp</dimen>
+    <dimen name="button_width">30dp</dimen>
+    <dimen name="ask_bid_button_top_bottom_margin">10dp</dimen>
+    <dimen name="ask_bid_button_right_margin">5dp</dimen>
+    <dimen name="ask_bid_button_text_size">8sp</dimen>
+    <dimen name="quotes_name_text_size">14sp</dimen>
 </resources>
