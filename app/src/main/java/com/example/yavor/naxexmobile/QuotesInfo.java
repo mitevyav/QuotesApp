@@ -15,12 +15,12 @@ public class QuotesInfo {
     /**
      * Ask label
      */
-    private float ask;
+    private String ask;
 
     /**
      * Sell label
      */
-    private float bid;
+    private String bid;
 
     /**
      * Change value which defines the color used
@@ -32,11 +32,18 @@ public class QuotesInfo {
      */
     private String displayName;
 
-    public float getAsk() {
+    public QuotesInfo(String ask, String bid, int changeOrientation, String displayName) {
+        this.ask = ask;
+        this.bid = bid;
+        this.changeOrientation = changeOrientation;
+        this.displayName = displayName;
+    }
+
+    public String getAsk() {
         return ask;
     }
 
-    public float getBid() {
+    public String getBid() {
         return bid;
     }
 

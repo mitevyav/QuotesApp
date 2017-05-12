@@ -77,8 +77,8 @@ public class QuotesAdapter extends ArrayAdapter<QuotesInfo> {
         viewHolder.askArrow.setVisibility(arrowVisibility);
         viewHolder.bidArrow.setVisibility(arrowVisibility);
 
-        viewHolder.askValue.setText(String.valueOf(qInfo.getAsk()));
-        viewHolder.bidValue.setText(String.valueOf(qInfo.getBid()));
+        viewHolder.askValue.setText(qInfo.getAsk());
+        viewHolder.bidValue.setText(qInfo.getBid());
 
         viewHolder.displayName.setText(qInfo.getDisplayName());
 
