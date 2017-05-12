@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">NaXex Mobile</string>
+    <string name="buy_label">Buy</string>
+    <string name="sell_label">Sell</string>
+    <string name="bid_label">Bid</string>
+    <string name="ask_label">Ask</string>
+</resources>
