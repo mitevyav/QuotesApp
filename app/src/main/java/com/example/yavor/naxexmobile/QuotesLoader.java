@@ -1,8 +1,8 @@
 package com.example.yavor.naxexmobile;
 
-import android.content.AsyncTaskLoader;
 import android.content.Context;
 import android.net.Uri;
+import android.support.v4.content.AsyncTaskLoader;
 import android.util.Log;
 
 import org.json.JSONArray;
@@ -32,7 +32,8 @@ public class QuotesLoader extends AsyncTaskLoader<List<QuotesInfo>> {
 
     @Override
     public List<QuotesInfo> loadInBackground() {
-        String jsonStr = getJSONString(new String("Symbols"));
+        String jsonStr = getJSONString(new String(
+                "EURUSD,GBPUSD,USDCHF,USDJPY,AUDUSD,USDCAD,GBPJPY,EURGBP,EURJPY,AUDCAD"));
         try {
             return getQuotesDataFromJson(jsonStr);
         } catch (JSONException e) {
