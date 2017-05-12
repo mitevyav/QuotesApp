@@ -16,7 +16,7 @@
         android:textColor="@color/display_name_text_color"/>
 
     <View
-        android:background="@color/delimiter"
+        android:background="@color/divider"
         android:layout_width="@dimen/delimiter_width"
         android:layout_height="match_parent"/>
 
@@ -57,7 +57,7 @@
     </LinearLayout>
 
     <View
-        android:background="@color/delimiter"
+        android:background="@color/divider"
         android:layout_width="@dimen/delimiter_width"
         android:layout_height="match_parent"/>
 

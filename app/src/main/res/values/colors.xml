@@ -13,5 +13,5 @@
     <color name="buy_sell_background_color">#424242</color>
 
     <color name="display_name_text_color">#000000</color>
-    <color name="delimiter">#c1bbbb</color>
+    <color name="divider">#c1bbbb</color>
 </resources>
