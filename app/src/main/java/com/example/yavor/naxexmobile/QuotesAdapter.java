@@ -5,6 +5,7 @@ import android.graphics.PorterDuff;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -69,7 +70,9 @@ public class QuotesAdapter extends ArrayAdapter<QuotesInfo> {
     private void bindView(ViewHolder viewHolder, int position) {
         QuotesInfo qInfo = getItem(position);
 
-        int color = qInfo.getColorResId();
+        int colorResId = qInfo.getColorResId();
+        int color = ContextCompat.getColor(context, colorResId);
+        
         viewHolder.askArrow.setColorFilter(color, PorterDuff.Mode.MULTIPLY);
         viewHolder.bidArrow.setColorFilter(color, PorterDuff.Mode.MULTIPLY);
 
@@ -79,6 +82,8 @@ public class QuotesAdapter extends ArrayAdapter<QuotesInfo> {
 
         viewHolder.askValue.setText(qInfo.getAsk());
         viewHolder.bidValue.setText(qInfo.getBid());
+        viewHolder.askValue.setTextColor(color);
+        viewHolder.bidValue.setTextColor(color);
 
         viewHolder.displayName.setText(qInfo.getDisplayName());
 
