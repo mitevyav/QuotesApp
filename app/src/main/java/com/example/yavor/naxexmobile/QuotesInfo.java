@@ -6,65 +6,72 @@ package com.example.yavor.naxexmobile;
 
 public class QuotesInfo {
 
+    private static final int DOWN = 2;
+
+    private static final int UNCHANGED = 3;
+
+    private static final int UP = 1;
+
     /**
      * Ask label
      */
-    private float askCurrent = 0;
-
-    private float askPrev = 0;
+    private float ask;
 
     /**
      * Sell label
      */
-    private float bidCurrent = 0;
+    private float bid;
 
-    private float bidPrev = 0;
+    /**
+     * Change value which defines the color used
+     */
+    private int changeOrientation;
 
     /**
      * The title of the view.
      */
     private String displayName;
 
-    public float getAskCurrent() {
-        return askCurrent;
+    public float getAsk() {
+        return ask;
     }
 
-    public float getBidCurrent() {
-        return bidCurrent;
+    public float getBid() {
+        return bid;
     }
 
     public String getDisplayName() {
         return displayName;
     }
 
-    public int getBidColorResId() {
-        int colorResId = R.color.neutralColor;
-        float delta = bidCurrent - bidPrev;
-        if (delta > 0) {
-            colorResId = R.color.UPColor;
-        } else if (delta < 0) {
-            colorResId = R.color.DownColor;
+    /**
+     * Returns a color res id depending on the current changeOrientation id.
+     *
+     * @return Color res id
+     */
+    public int getColorResId() {
+        int colorResId;
+        switch (changeOrientation) {
+            case UP:
+                colorResId = R.color.UPColor;
+                break;
+            case DOWN:
+                colorResId = R.color.DownColor;
+                break;
+            default:
+                colorResId = R.color.neutralColor;
+                break;
         }
         return colorResId;
     }
 
-    public int getAskColorResId() {
-        int colorResId = R.color.neutralColor;
-        float delta = askCurrent - askPrev;
-        if (delta > 0) {
-            colorResId = R.color.UPColor;
-        } else if (delta < 0) {
-            colorResId = R.color.DownColor;
-        }
-        return colorResId;
-    }
-
-    public boolean isAskChanged() {
-        return (askCurrent - askPrev) != 0;
-    }
-
-    public boolean isBidChanged() {
-        return (bidCurrent - bidPrev) != 0;
+    /**
+     * Shows if the quotes value is changed
+     *
+     * @return true if it is changed
+     */
+    public boolean isChanged() {
+        return changeOrientation != UNCHANGED;
     }
 
 }

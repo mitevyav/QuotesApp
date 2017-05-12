@@ -69,16 +69,16 @@ public class QuotesAdapter extends ArrayAdapter<QuotesInfo> {
     private void bindView(ViewHolder viewHolder, int position) {
         QuotesInfo qInfo = getItem(position);
 
-        int colorBid = qInfo.getBidColorResId();
-        int colorAsk = qInfo.getAskColorResId();
-        viewHolder.askArrow.setColorFilter(colorAsk, PorterDuff.Mode.MULTIPLY);
-        viewHolder.bidArrow.setColorFilter(colorBid, PorterDuff.Mode.MULTIPLY);
+        int color = qInfo.getColorResId();
+        viewHolder.askArrow.setColorFilter(color, PorterDuff.Mode.MULTIPLY);
+        viewHolder.bidArrow.setColorFilter(color, PorterDuff.Mode.MULTIPLY);
 
-        viewHolder.askArrow.setVisibility(qInfo.isAskChanged() ? View.VISIBLE : View.INVISIBLE);
-        viewHolder.bidArrow.setVisibility(qInfo.isBidChanged() ? View.VISIBLE : View.INVISIBLE);
+        int arrowVisibility = qInfo.isChanged() ? View.VISIBLE : View.INVISIBLE;
+        viewHolder.askArrow.setVisibility(arrowVisibility);
+        viewHolder.bidArrow.setVisibility(arrowVisibility);
 
-        viewHolder.askValue.setText(String.valueOf(qInfo.getAskCurrent()));
-        viewHolder.bidValue.setText(String.valueOf(qInfo.getBidCurrent()));
+        viewHolder.askValue.setText(String.valueOf(qInfo.getAsk()));
+        viewHolder.bidValue.setText(String.valueOf(qInfo.getBid()));
 
         viewHolder.displayName.setText(qInfo.getDisplayName());
 
@@ -127,7 +127,7 @@ public class QuotesAdapter extends ArrayAdapter<QuotesInfo> {
             int position = (int) view.getTag();
             QuotesInfo qInfo = getItem(position);
             Toast.makeText(context,
-                           qInfo.getDisplayName() + " " + qInfo.getAskCurrent(),
+                           qInfo.getDisplayName() + " " + qInfo.getAsk(),
                            Toast.LENGTH_LONG).show();
         }
     }
@@ -139,7 +139,7 @@ public class QuotesAdapter extends ArrayAdapter<QuotesInfo> {
             int position = (int) view.getTag();
             QuotesInfo qInfo = getItem(position);
             Toast.makeText(context,
-                           qInfo.getDisplayName() + " " + qInfo.getBidCurrent(),
+                           qInfo.getDisplayName() + " " + qInfo.getBid(),
                            Toast.LENGTH_LONG).show();
         }
     }
