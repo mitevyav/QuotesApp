@@ -23,12 +23,13 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onLoadFinished(Loader<List<QuotesInfo>> loader, List<QuotesInfo> data) {
+        quotesAdapter.clear();
         quotesAdapter.addAll(data);
     }
 
     @Override
     public void onLoaderReset(Loader<List<QuotesInfo>> loader) {
-        quotesAdapter.addAll(new ArrayList<QuotesInfo>());
+        quotesAdapter.clear();
     }
 
     @Override
