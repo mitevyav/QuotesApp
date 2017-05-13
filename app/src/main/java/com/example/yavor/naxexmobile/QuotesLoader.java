@@ -42,7 +42,7 @@ public class QuotesLoader extends AsyncTaskLoader<List<QuotesInfo>> {
                 "EURUSD,GBPUSD,USDCHF,USDJPY,AUDUSD,USDCAD,GBPJPY,EURGBP,EURJPY,AUDCAD"));
         if(jsonStr == null){
             showFailToast();
-            return new ArrayList<QuotesInfo>();
+            return new ArrayList<>();
         }
         try {
             return getQuotesDataFromJson(jsonStr);
