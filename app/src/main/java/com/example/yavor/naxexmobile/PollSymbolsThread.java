@@ -11,6 +11,12 @@ public class PollSymbolsThread implements Runnable {
 
     private final Loader loader;
 
+    /**
+     * If the request takes too long time to response we need to prevent the restart of loader
+     * which will prevent the loader from terminating ever.
+     */
+    private volatile boolean isLoaderStarted = false;
+
     private volatile boolean isRunning = false;
 
     private Thread thread;
@@ -20,6 +26,10 @@ public class PollSymbolsThread implements Runnable {
 
         isRunning = true;
         thread = new Thread(this, "PollEventsThread");
+    }
+
+    public void setLoaderStarted(boolean loaderStarted) {
+        isLoaderStarted = loaderStarted;
     }
 
     public void start() {
@@ -51,7 +61,9 @@ public class PollSymbolsThread implements Runnable {
                     return;
                 }
 
-                loader.forceLoad();
+                if (!isLoaderStarted) {
+                    loader.forceLoad();
+                }
             }
         }
     }

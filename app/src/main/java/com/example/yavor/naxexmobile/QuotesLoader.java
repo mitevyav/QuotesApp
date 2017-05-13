@@ -48,6 +48,7 @@ public class QuotesLoader extends AsyncTaskLoader<List<QuotesInfo>> {
     public List<QuotesInfo> loadInBackground() {
 
         Log.v(LOG_TAG, "loadInBackground()= " + Utils.getSymbolsQuery(getContext()));
+        pollSymbolsThread.setLoaderStarted(true);
 
         String jsonStr = getJSONString(Utils.getSymbolsQuery(getContext()));
         if (jsonStr == null) {
@@ -60,6 +61,7 @@ public class QuotesLoader extends AsyncTaskLoader<List<QuotesInfo>> {
             showFailToast();
             e.printStackTrace();
         }
+
         return null;
     }
 
@@ -159,6 +161,12 @@ public class QuotesLoader extends AsyncTaskLoader<List<QuotesInfo>> {
             }
         }
         return quotesJsonStr;
+    }
+
+    @Override
+    public void deliverResult(List<QuotesInfo> data) {
+        super.deliverResult(data);
+        pollSymbolsThread.setLoaderStarted(false);
     }
 
     @Override
