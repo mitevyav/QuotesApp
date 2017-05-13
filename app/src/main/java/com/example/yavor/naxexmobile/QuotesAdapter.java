@@ -7,6 +7,8 @@ import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
+import android.text.SpannableString;
+import android.text.style.RelativeSizeSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -85,8 +87,8 @@ public class QuotesAdapter extends ArrayAdapter<QuotesInfo> {
         viewHolder.askArrow.setImageDrawable(drawable);
         viewHolder.bidArrow.setImageDrawable(drawable);
 
-        viewHolder.askValue.setText(qInfo.getAsk());
-        viewHolder.bidValue.setText(qInfo.getBid());
+        viewHolder.askValue.setText(setTextSize(qInfo.getAsk()));
+        viewHolder.bidValue.setText(setTextSize(qInfo.getBid()));
         viewHolder.askValue.setTextColor(color);
         viewHolder.bidValue.setTextColor(color);
 
@@ -97,6 +99,12 @@ public class QuotesAdapter extends ArrayAdapter<QuotesInfo> {
 
         viewHolder.buyButton.setOnClickListener(new BuyClickListener());
         viewHolder.sellButton.setOnClickListener(new SellClickListener());
+    }
+
+    private SpannableString setTextSize(String string) {
+        SpannableString spanString = new SpannableString(string);
+        spanString.setSpan(new RelativeSizeSpan(1.5f), string.length() - 2, string.length(), 0);
+        return spanString;
     }
 
     /**
