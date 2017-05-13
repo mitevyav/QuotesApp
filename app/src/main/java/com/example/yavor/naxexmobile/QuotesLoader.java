@@ -36,7 +36,7 @@ public class QuotesLoader extends AsyncTaskLoader<List<QuotesInfo>> {
     @Override
     public List<QuotesInfo> loadInBackground() {
 
-        Log.v(LOG_TAG, "loadInBackground()");
+        Log.v(LOG_TAG, "loadInBackground()= " + Utils.getSymbolsQuery(getContext()));
 
         String jsonStr = getJSONString(Utils.getSymbolsQuery(getContext()));
         if(jsonStr == null){

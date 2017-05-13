@@ -23,7 +23,7 @@ import static android.R.layout.simple_list_item_multiple_choice;
 import static android.content.res.Configuration.ORIENTATION_PORTRAIT;
 
 public class MainActivity extends AppCompatActivity
-        implements LoaderManager.LoaderCallbacks<List<QuotesInfo>> {
+        implements LoaderManager.LoaderCallbacks<List<QuotesInfo>>, View.OnClickListener {
 
     private static final String LOG_TAG = MainActivity.class.getCanonicalName();
 
@@ -51,6 +51,15 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
+    public void onClick(View view) {
+        switch (view.getId()){
+            case R.id.fab:
+                showAddRemoveDialog();
+                break;
+        }
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
@@ -72,6 +81,9 @@ public class MainActivity extends AppCompatActivity
 
         // Start the loader
         getSupportLoaderManager().initLoader(LOADER_ID, null, this).forceLoad();
+
+        //
+        findViewById(R.id.fab).setOnClickListener(this);
     }
 
     /**
@@ -132,6 +144,10 @@ public class MainActivity extends AppCompatActivity
             if (checkedItemPositions.get(i)) {
                 builder.append(stringArray[i] + ",");
             }
+        }
+        // Remove the last ","
+        if(builder.length() > 0){
+            builder.replace(builder.length(), builder.length(),"");
         }
         return builder.toString();
     }
