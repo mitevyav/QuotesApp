@@ -112,8 +112,8 @@ public class SymbolsDialog extends DialogFragment {
         String query = Utils.getSymbolsQuery(getActivity());
 
         for (int i = 0; i < stringArray.length; i++) {
-            int result = query.indexOf(stringArray[i]);
-            if (result >= 0) {
+            boolean contains = query.contains(stringArray[i]);
+            if (contains) {
                 listView.setItemChecked(i, true);
             }
         }
