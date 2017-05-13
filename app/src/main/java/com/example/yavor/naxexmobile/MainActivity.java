@@ -52,7 +52,7 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onClick(View view) {
-        switch (view.getId()){
+        switch (view.getId()) {
             case R.id.fab:
                 showAddRemoveDialog();
                 break;
@@ -93,16 +93,18 @@ public class MainActivity extends AppCompatActivity
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle(getString(R.string.symbols_dialog_title));
 
+        // Create the ListView and set the adapter
         final ListView listView = new ListView(this);
         listView.setChoiceMode(AbsListView.CHOICE_MODE_MULTIPLE);
         final String[] stringArray = Utils.getSymbols(getResources());
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
-                                                                simple_list_item_multiple_choice,
-                                                                android.R.id.text1,
-                                                                stringArray);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
+                                                          simple_list_item_multiple_choice,
+                                                          android.R.id.text1,
+                                                          stringArray);
         listView.setAdapter(adapter);
-
         builder.setView(listView);
+
+        loadCheckedPositions(listView, stringArray);
 
         builder.setPositiveButton(getString(android.R.string.ok),
                                   new DialogInterface.OnClickListener() {
@@ -146,8 +148,8 @@ public class MainActivity extends AppCompatActivity
             }
         }
         // Remove the last ","
-        if(builder.length() > 0){
-            builder.replace(builder.length(), builder.length(),"");
+        if (builder.length() > 0) {
+            builder.replace(builder.length(), builder.length(), "");
         }
         return builder.toString();
     }
@@ -162,5 +164,22 @@ public class MainActivity extends AppCompatActivity
         SharedPreferences.Editor editor = preferences.edit();
         editor.putString(getString(R.string.symbols_pref_key), query);
         editor.commit();
+    }
+
+    /**
+     * Set the list items checked depending on the current pref query
+     *
+     * @param listView listView showing the items
+     * @param stringArray array with all possible symbol query params.  
+     */
+    private void loadCheckedPositions(ListView listView, String[] stringArray) {
+        String query = Utils.getSymbolsQuery(this);
+
+        for (int i = 0; i < stringArray.length; i++) {
+            int result = query.indexOf(stringArray[i]);
+            if (result >= 0) {
+                listView.setItemChecked(i, true);
+            }
+        }
     }
 }
