@@ -178,6 +178,9 @@ public class QuotesLoader extends AsyncTaskLoader<List<QuotesInfo>> {
         return jsonStr.substring(startIndex, endIndex);
     }
 
+    /**
+     * Show toast to the user when the info fetch is no successful
+     */
     private void showFailToast() {
         new Handler(Looper.getMainLooper()).post(new Runnable() {
             @Override
@@ -188,5 +191,4 @@ public class QuotesLoader extends AsyncTaskLoader<List<QuotesInfo>> {
             }
         });
     }
-
 }
