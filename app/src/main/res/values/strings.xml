@@ -5,4 +5,5 @@
     <string name="bid_label">Bid</string>
     <string name="ask_label">Ask</string>
     <string name="symbol_label">Symbol</string>
+    <string name="fail_toast">Update failed</string>
 </resources>

@@ -2,8 +2,11 @@ package com.example.yavor.naxexmobile;
 
 import android.content.Context;
 import android.net.Uri;
+import android.os.Handler;
+import android.os.Looper;
 import android.support.v4.content.AsyncTaskLoader;
 import android.util.Log;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -37,9 +40,14 @@ public class QuotesLoader extends AsyncTaskLoader<List<QuotesInfo>> {
 
         String jsonStr = getJSONString(new String(
                 "EURUSD,GBPUSD,USDCHF,USDJPY,AUDUSD,USDCAD,GBPJPY,EURGBP,EURJPY,AUDCAD"));
+        if(jsonStr == null){
+            showFailToast();
+            return new ArrayList<QuotesInfo>();
+        }
         try {
             return getQuotesDataFromJson(jsonStr);
         } catch (JSONException e) {
+            showFailToast();
             e.printStackTrace();
         }
         return null;
@@ -168,6 +176,17 @@ public class QuotesLoader extends AsyncTaskLoader<List<QuotesInfo>> {
         int startIndex = 1;
         int endIndex = jsonStr.length() - 1;
         return jsonStr.substring(startIndex, endIndex);
+    }
+
+    private void showFailToast() {
+        new Handler(Looper.getMainLooper()).post(new Runnable() {
+            @Override
+            public void run() {
+                Toast.makeText(getContext(),
+                               getContext().getString(R.string.fail_toast),
+                               Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
 }
