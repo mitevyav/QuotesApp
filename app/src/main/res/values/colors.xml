@@ -17,4 +17,6 @@
 
     <color name="list_header_background">#30749f</color>
     <color name="list_header_text_color">#ffffff</color>
+
+    <color name="empty_view_text_color">#FFF44336</color>
 </resources>

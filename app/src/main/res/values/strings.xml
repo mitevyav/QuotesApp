@@ -6,6 +6,7 @@
     <string name="ask_label">Ask</string>
     <string name="symbol_label">Symbol</string>
     <string name="fail_toast">Update failed</string>
+    <string name="no_selection">No symbols selected</string>
 
     <string name="symbols_dialog_title">Select symbols</string>
 

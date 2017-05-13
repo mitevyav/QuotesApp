@@ -22,6 +22,8 @@ import static com.example.yavor.naxexmobile.MainActivity.LOADER_ID;
 
 public class SymbolsDialog extends DialogFragment {
 
+    public static final String FRAGMENT_TAG = "SymbolsDialogFragment";
+
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {

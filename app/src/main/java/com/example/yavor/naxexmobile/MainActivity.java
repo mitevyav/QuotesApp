@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AbsListView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,6 +22,8 @@ public class MainActivity extends AppCompatActivity
     private static final String LOG_TAG = MainActivity.class.getCanonicalName();
 
     public static final int LOADER_ID = 1;
+
+    private AbsListView listView;
 
     private QuotesAdapter quotesAdapter;
 
@@ -35,6 +38,9 @@ public class MainActivity extends AppCompatActivity
         Log.v(LOG_TAG, "onLoadFinished");
         quotesAdapter.clear();
         quotesAdapter.addAll(data);
+        if (data.isEmpty()) {
+            setEmptyView();
+        }
     }
 
     @Override
@@ -57,7 +63,7 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        AbsListView listView = (AbsListView) findViewById(R.id.list);
+        listView = (AbsListView) findViewById(R.id.list);
 
         // Add header depending on device orientation
         int orientation = getResources().getConfiguration().orientation;
@@ -72,10 +78,11 @@ public class MainActivity extends AppCompatActivity
                                           new ArrayList<QuotesInfo>());
         listView.setAdapter(quotesAdapter);
 
+        listView.setEmptyView(findViewById(android.R.id.empty));
         // Start the loader
         getSupportLoaderManager().initLoader(LOADER_ID, null, this).forceLoad();
 
-        //
+        // Initialize the fab button for adding/removing view.
         findViewById(R.id.fab).setOnClickListener(this);
     }
 
@@ -85,7 +92,19 @@ public class MainActivity extends AppCompatActivity
     private void showAddRemoveDialog() {
         FragmentManager fm = getSupportFragmentManager();
         SymbolsDialog dialogFragment = new SymbolsDialog();
-        dialogFragment.show(fm, "");
+        dialogFragment.show(fm, SymbolsDialog.FRAGMENT_TAG);
     }
 
+    /**
+     * Set the text in the empty view depending on are there any query params or not.
+     */
+    private void setEmptyView(){
+        TextView textView = (TextView) listView.getEmptyView();
+        String query = Utils.getSymbolsQuery(this);
+        if(query.equals("")){
+            textView.setText(getString(R.string.no_selection));
+        }else {
+            textView.setText(getString(R.string.fail_toast));
+        }
+    }
 }
