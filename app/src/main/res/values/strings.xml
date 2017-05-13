@@ -6,4 +6,9 @@
     <string name="ask_label">Ask</string>
     <string name="symbol_label">Symbol</string>
     <string name="fail_toast">Update failed</string>
+
+    <string name="symbols_dialog_title">Select symbols</string>
+
+    <string name="symbols_pref_key">symbols_pref_key</string>
+    <string name="symbols_default_query">EURUSD,GBPUSD,USDCHF,USDJPY,AUDUSD,USDCAD,GBPJPY,EURGBP,EURJPY,AUDCAD</string>
 </resources>

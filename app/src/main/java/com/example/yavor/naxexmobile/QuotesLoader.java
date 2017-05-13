@@ -38,8 +38,7 @@ public class QuotesLoader extends AsyncTaskLoader<List<QuotesInfo>> {
 
         Log.v(LOG_TAG, "loadInBackground()");
 
-        String jsonStr = getJSONString(new String(
-                "EURUSD,GBPUSD,USDCHF,USDJPY,AUDUSD,USDCAD,GBPJPY,EURGBP,EURJPY,AUDCAD"));
+        String jsonStr = getJSONString(Utils.getSymbolsQuery(getContext()));
         if(jsonStr == null){
             showFailToast();
             return new ArrayList<>();

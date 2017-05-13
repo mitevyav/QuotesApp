@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Symbols to be fetched.  -->
+    
+    <string name="EURUSD">EURUSD</string>
+    <string name="GBPUSD">GBPUSD</string>
+    <string name="USDCHF">USDCHF</string>
+    <string name="USDJPY">USDJPY</string>
+    <string name="AUDUSD">AUDUSD</string>
+    <string name="USDCAD">USDCAD</string>
+    <string name="GBPJPY">GBPJPY</string>
+    <string name="EURGBP">EURGBP</string>
+    <string name="EURJPY">EURJPY</string>
+    <string name="AUDCAD">AUDCAD</string>
+
+    <integer name="symbols_count">10</integer>
+</resources>
