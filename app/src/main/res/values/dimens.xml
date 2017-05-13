@@ -10,4 +10,5 @@
     <dimen name="ask_bid_button_right_margin">5dp</dimen>
     <dimen name="ask_bid_button_text_size">8sp</dimen>
     <dimen name="quotes_name_text_size">14sp</dimen>
+    <dimen name="fab_button_margin">16dp</dimen>
 </resources>
