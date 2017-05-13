@@ -5,6 +5,7 @@ import android.net.Uri;
 import android.os.Handler;
 import android.os.Looper;
 import android.support.v4.content.AsyncTaskLoader;
+import android.text.TextUtils;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -16,10 +17,12 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.net.HttpCookie;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by mitevyav on 12.5.2017 г..
@@ -29,6 +32,8 @@ public class QuotesLoader extends AsyncTaskLoader<List<QuotesInfo>> {
 
     private static final String LOG_TAG = QuotesLoader.class.getCanonicalName();
 
+    private static java.net.CookieManager msCookieManager = new java.net.CookieManager();
+
     private PollSymbolsThread pollSymbolsThread;
 
     public QuotesLoader(Context context) {
@@ -37,13 +42,6 @@ public class QuotesLoader extends AsyncTaskLoader<List<QuotesInfo>> {
         // Start PollSymbolsThread thread
         pollSymbolsThread = new PollSymbolsThread(this);
         pollSymbolsThread.start();
-    }
-
-    @Override
-    protected void onStopLoading() {
-        Log.v(LOG_TAG, "onStopLoading()");
-        super.onStopLoading();
-        pollSymbolsThread.stop();
     }
 
     @Override
@@ -101,7 +99,28 @@ public class QuotesLoader extends AsyncTaskLoader<List<QuotesInfo>> {
             // Create the request to Tradenetworks, and open the connection
             urlConnection = (HttpURLConnection) url.openConnection();
             urlConnection.setRequestMethod("GET");
+            if (msCookieManager.getCookieStore().getCookies().size() > 0) {
+                // While joining the Cookies, use ',' or ';' as needed. Most of the servers are using ';'
+                urlConnection.setRequestProperty("Cookie",
+                                                 TextUtils.join(";",
+                                                                msCookieManager.getCookieStore()
+                                                                               .getCookies()));
+            }
             urlConnection.connect();
+
+            final String COOKIES_HEADER = "Set-Cookie";
+            final String SESSION_ID = "ASP.NET_SessionId";
+
+            msCookieManager = new java.net.CookieManager();
+            Map<String, List<String>> headerFields = urlConnection.getHeaderFields();
+            List<String> cookiesHeader = headerFields.get(COOKIES_HEADER);
+            if (cookiesHeader != null) {
+                for (String cookie : cookiesHeader) {
+                    if (cookie.contains(SESSION_ID)) {
+                        msCookieManager.getCookieStore().add(null, HttpCookie.parse(cookie).get(0));
+                    }
+                }
+            }
 
             // Read the input stream into a String
             InputStream inputStream = urlConnection.getInputStream();
@@ -140,6 +159,13 @@ public class QuotesLoader extends AsyncTaskLoader<List<QuotesInfo>> {
             }
         }
         return quotesJsonStr;
+    }
+
+    @Override
+    protected void onStopLoading() {
+        Log.v(LOG_TAG, "onStopLoading()");
+        super.onStopLoading();
+        pollSymbolsThread.stop();
     }
 
     /**
