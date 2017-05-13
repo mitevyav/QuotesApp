@@ -82,7 +82,7 @@ public class SymbolsDialog extends DialogFragment {
         }
         // Remove the last ","
         if (builder.length() > 0) {
-            builder.replace(builder.length(), builder.length(), "");
+            builder.replace(builder.length()-1, builder.length(), "");
         }
         return builder.toString();
     }
