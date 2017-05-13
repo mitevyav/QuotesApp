@@ -29,8 +29,21 @@ public class QuotesLoader extends AsyncTaskLoader<List<QuotesInfo>> {
 
     private static final String LOG_TAG = QuotesLoader.class.getCanonicalName();
 
+    private PollSymbolsThread pollSymbolsThread;
+
     public QuotesLoader(Context context) {
         super(context);
+
+        // Start PollSymbolsThread thread
+        pollSymbolsThread = new PollSymbolsThread(this);
+        pollSymbolsThread.start();
+    }
+
+    @Override
+    protected void onStopLoading() {
+        Log.v(LOG_TAG, "onStopLoading()");
+        super.onStopLoading();
+        pollSymbolsThread.stop();
     }
 
     @Override
@@ -39,7 +52,7 @@ public class QuotesLoader extends AsyncTaskLoader<List<QuotesInfo>> {
         Log.v(LOG_TAG, "loadInBackground()= " + Utils.getSymbolsQuery(getContext()));
 
         String jsonStr = getJSONString(Utils.getSymbolsQuery(getContext()));
-        if(jsonStr == null){
+        if (jsonStr == null) {
             showFailToast();
             return new ArrayList<>();
         }
