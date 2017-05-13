@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.AbsListView;
 import android.widget.ListView;
@@ -16,23 +17,28 @@ import static android.content.res.Configuration.ORIENTATION_PORTRAIT;
 public class MainActivity extends AppCompatActivity
         implements LoaderManager.LoaderCallbacks<List<QuotesInfo>> {
 
+    private static final String LOG_TAG = MainActivity.class.getCanonicalName();
+
     private static final int LOADER_ID = 1;
 
     private QuotesAdapter quotesAdapter;
 
     @Override
     public Loader<List<QuotesInfo>> onCreateLoader(int id, Bundle args) {
+        Log.v(LOG_TAG, "onCreateLoader");
         return new QuotesLoader(this);
     }
 
     @Override
     public void onLoadFinished(Loader<List<QuotesInfo>> loader, List<QuotesInfo> data) {
+        Log.v(LOG_TAG, "onLoadFinished");
         quotesAdapter.clear();
         quotesAdapter.addAll(data);
     }
 
     @Override
     public void onLoaderReset(Loader<List<QuotesInfo>> loader) {
+        Log.v(LOG_TAG, "onLoaderReset");
         quotesAdapter.clear();
     }
 
@@ -50,7 +56,7 @@ public class MainActivity extends AppCompatActivity
             ((ListView) listView).addHeaderView(view);
         }
 
-        // Create the adapter and set it to the listview
+        // Create the adapter and set it to the AbsListView
         quotesAdapter = new QuotesAdapter(this,
                                           R.layout.quotes_list_item,
                                           new ArrayList<QuotesInfo>());

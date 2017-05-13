@@ -32,6 +32,9 @@ public class QuotesLoader extends AsyncTaskLoader<List<QuotesInfo>> {
 
     @Override
     public List<QuotesInfo> loadInBackground() {
+
+        Log.v(LOG_TAG, "loadInBackground()");
+
         String jsonStr = getJSONString(new String(
                 "EURUSD,GBPUSD,USDCHF,USDJPY,AUDUSD,USDCAD,GBPJPY,EURGBP,EURJPY,AUDCAD"));
         try {
