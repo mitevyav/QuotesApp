@@ -3,7 +3,6 @@ package com.example.yavor.naxexmobile;
 import android.content.Context;
 import android.net.Uri;
 import android.support.v4.content.AsyncTaskLoader;
-import android.text.TextUtils;
 import android.util.Log;
 
 import org.json.JSONArray;
@@ -14,12 +13,14 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.net.CookieHandler;
+import java.net.CookieManager;
 import java.net.HttpCookie;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by mitevyav on 12.5.2017 г..
@@ -29,7 +30,7 @@ public class QuotesLoader extends AsyncTaskLoader<List<QuotesInfo>> {
 
     private static final String LOG_TAG = QuotesLoader.class.getCanonicalName();
 
-    private static java.net.CookieManager msCookieManager = new java.net.CookieManager();
+    private CookieManager cookieManager;
 
     private PollSymbolsThread pollSymbolsThread;
 
@@ -39,6 +40,10 @@ public class QuotesLoader extends AsyncTaskLoader<List<QuotesInfo>> {
         // Start PollSymbolsThread thread
         pollSymbolsThread = new PollSymbolsThread(this);
         pollSymbolsThread.start();
+
+        // Set default cookie manager.
+        cookieManager = new CookieManager();
+        CookieHandler.setDefault(cookieManager);
     }
 
     @Override
@@ -85,44 +90,38 @@ public class QuotesLoader extends AsyncTaskLoader<List<QuotesInfo>> {
 
         try {
             // Construct the URL for the Quotes query
-            final String FORECAST_BASE_URL =
+            final String BASE_URL =
                     "http://eu.tradenetworks.com/QuotesBox/quotes/GetQuotesBySymbols?";
             final String LANGUAGE_PARAM = "languageCode";
             final String SYMBOLS_PARAM = "symbols";
-
             final String LANGUAGE_VALUE = "en-US";
 
-            Uri builtUri = Uri.parse(FORECAST_BASE_URL).buildUpon().appendQueryParameter(
-                    LANGUAGE_PARAM,
-                    LANGUAGE_VALUE).appendQueryParameter(SYMBOLS_PARAM, symbols).build();
+            final String SESSION_ID = "ASP.NET_SessionId";
+
+            Uri builtUri = Uri.parse(BASE_URL)
+                              .buildUpon()
+                              .appendQueryParameter(LANGUAGE_PARAM,
+                                                    LANGUAGE_VALUE)
+                              .appendQueryParameter(SYMBOLS_PARAM, symbols)
+                              .build();
 
             URL url = new URL(builtUri.toString());
 
             // Create the request to Tradenetworks, and open the connection
             urlConnection = (HttpURLConnection) url.openConnection();
             urlConnection.setRequestMethod("GET");
-            if (msCookieManager.getCookieStore().getCookies().size() > 0) {
-                // While joining the Cookies, use ',' or ';' as needed. Most of the servers are using ';'
-                urlConnection.setRequestProperty("Cookie",
-                                                 TextUtils.join(";",
-                                                                msCookieManager.getCookieStore()
-                                                                               .getCookies()));
-            }
-            urlConnection.connect();
 
-            final String COOKIES_HEADER = "Set-Cookie";
-            final String SESSION_ID = "ASP.NET_SessionId";
-
-            msCookieManager = new java.net.CookieManager();
-            Map<String, List<String>> headerFields = urlConnection.getHeaderFields();
-            List<String> cookiesHeader = headerFields.get(COOKIES_HEADER);
-            if (cookiesHeader != null) {
-                for (String cookie : cookiesHeader) {
-                    if (cookie.contains(SESSION_ID)) {
-                        msCookieManager.getCookieStore().add(null, HttpCookie.parse(cookie).get(0));
-                    }
+            // Add cookie
+            Iterator<HttpCookie> iterator = cookieManager.getCookieStore().getCookies().iterator();
+            while (iterator.hasNext()) {
+                HttpCookie cookie = iterator.next();
+                if (cookie.getName().equals(SESSION_ID)) {
+                    urlConnection.setRequestProperty("Set-Cookie", cookie.toString());
+                    Log.v(LOG_TAG, "Set-Cookie= " + cookie.toString());
                 }
             }
+
+            urlConnection.connect();
 
             // Read the input stream into a String
             InputStream inputStream = urlConnection.getInputStream();
