@@ -13,4 +13,8 @@
         <item>EURJPY</item>
         <item>AUDCAD</item>
     </string-array>
+
+
+    <!-- Enable/disable cookies.  -->
+    <bool name="enable_cookies">false</bool>
 </resources>

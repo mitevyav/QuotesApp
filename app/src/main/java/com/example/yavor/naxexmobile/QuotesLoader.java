@@ -15,11 +15,9 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.CookieHandler;
 import java.net.CookieManager;
-import java.net.HttpCookie;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -32,6 +30,8 @@ public class QuotesLoader extends AsyncTaskLoader<List<QuotesInfo>> {
 
     private CookieManager cookieManager;
 
+    private boolean enableCookies = false;
+
     private PollSymbolsThread pollSymbolsThread;
 
     public QuotesLoader(Context context) {
@@ -41,9 +41,12 @@ public class QuotesLoader extends AsyncTaskLoader<List<QuotesInfo>> {
         pollSymbolsThread = new PollSymbolsThread(this);
         pollSymbolsThread.start();
 
+        enableCookies = context.getResources().getBoolean(R.bool.enable_cookies);
         // Set default cookie manager.
-        cookieManager = new CookieManager();
-        CookieHandler.setDefault(cookieManager);
+        if (enableCookies) {
+            cookieManager = new CookieManager();
+            CookieHandler.setDefault(cookieManager);
+        }
     }
 
     @Override
@@ -96,8 +99,6 @@ public class QuotesLoader extends AsyncTaskLoader<List<QuotesInfo>> {
             final String SYMBOLS_PARAM = "symbols";
             final String LANGUAGE_VALUE = "en-US";
 
-            final String SESSION_ID = "ASP.NET_SessionId";
-
             Uri builtUri = Uri.parse(BASE_URL)
                               .buildUpon()
                               .appendQueryParameter(LANGUAGE_PARAM,
@@ -110,16 +111,6 @@ public class QuotesLoader extends AsyncTaskLoader<List<QuotesInfo>> {
             // Create the request to Tradenetworks, and open the connection
             urlConnection = (HttpURLConnection) url.openConnection();
             urlConnection.setRequestMethod("GET");
-
-            // Add cookie
-            Iterator<HttpCookie> iterator = cookieManager.getCookieStore().getCookies().iterator();
-            while (iterator.hasNext()) {
-                HttpCookie cookie = iterator.next();
-                if (cookie.getName().equals(SESSION_ID)) {
-                    urlConnection.setRequestProperty("Set-Cookie", cookie.toString());
-                    Log.v(LOG_TAG, "Set-Cookie= " + cookie.toString());
-                }
-            }
 
             urlConnection.connect();
 
