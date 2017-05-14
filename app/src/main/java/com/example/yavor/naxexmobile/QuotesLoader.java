@@ -44,10 +44,15 @@ public class QuotesLoader extends AsyncTaskLoader<List<QuotesInfo>> {
     @Override
     public List<QuotesInfo> loadInBackground() {
 
-        Log.v(LOG_TAG, "loadInBackground()= " + Utils.getSymbolsQuery(getContext()));
+        String query = Utils.getSymbolsQuery(getContext());
+        Log.v(LOG_TAG, "loadInBackground()= " + query);
+
         pollSymbolsThread.setLoaderStarted(true);
 
-        String jsonStr = getJSONString(Utils.getSymbolsQuery(getContext()));
+        if (query.equals("")) {
+            return new ArrayList<>();
+        }
+        String jsonStr = getJSONString(query);
         if (jsonStr == null) {
             return new ArrayList<>();
         }
