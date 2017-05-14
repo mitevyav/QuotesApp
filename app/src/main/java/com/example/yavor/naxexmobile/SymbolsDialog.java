@@ -33,7 +33,7 @@ public class SymbolsDialog extends DialogFragment {
         // Create the ListView and set the adapter
         final ListView listView = new ListView(getActivity());
         listView.setChoiceMode(AbsListView.CHOICE_MODE_MULTIPLE);
-        final String[] stringArray = Utils.getSymbols(getResources());
+        final String[] stringArray = getActivity().getResources().getStringArray(R.array.Symbols);
         ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(),
                                                           simple_list_item_multiple_choice,
                                                           android.R.id.text1,
@@ -84,7 +84,7 @@ public class SymbolsDialog extends DialogFragment {
         }
         // Remove the last ","
         if (builder.length() > 0) {
-            builder.replace(builder.length()-1, builder.length(), "");
+            builder.replace(builder.length() - 1, builder.length(), "");
         }
         return builder.toString();
     }
